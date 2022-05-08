@@ -15,24 +15,24 @@
 6. Replacing pixels corresponding to cloak with the background pixels.
 7. Displaying the final output
 ## Step 1: Import the libraries
-```
+```python
 import cv2
 import numpy as np
 import time
 ```
 ## Step 2: Setting up a webcam (Windows)
-```
+```python
 cap = cv2.VideoCapture()
 cap.open(0, cv2.CAP_DSHOW)
 ```
 It is quicker to get web cam live in Windows environment by adding cv2.CAP_DSHOW attribute.
 ## Step 2: Setting up a webcam (Windows/Linux/Mac)
-```
+```python
 cap = cv2.VideoCapture(0)
 ```
 ## Step 3: Capturing the Background
 Capturing the Image of the background in the first 3 seconds.
-```
+```python
 time.sleep(3)
 background=0
 
@@ -43,7 +43,7 @@ background = np.flip(background,axis=1)
 ```
 It is optional to flip the background. If you choose not to flip the background, you should not flip the captured flame in the below while loop.
 ## Step 4: Capturing the video feed using Webcam and create masks for different ranges of red colors
-```
+```python
 while(cap.isOpened()):
     ret, img = cap.read()
 
@@ -66,18 +66,18 @@ while(cap.isOpened()):
 
 ```
 ## Step 5: Addition of the two masks to generate the final mask
-```
+```python
     # Addition of the two masks to generate the final mask.
     mask = mask1 + mask2
     mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, np.ones((5,5), np.uint8))
 ```
 ## Step 6: Replacing pixels corresponding to cloak with the background pixels
-```
+```python
     # Replacing pixels corresponding to cloak with the background pixels.
     img[np.where(mask == 255)] = background[np.where(mask == 255)]
 ```
 ## Step 7: Displaying the final output
-```
+```python
     cv2.imshow('Display',img)
     k = cv2.waitKey(10)
     if k == 27 or k == ord('q'):
